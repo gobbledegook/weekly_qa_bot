@@ -1,0 +1,24 @@
+name: Run bot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "13 */2 * * *"
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+        cache: pip
+    - run: pip install -r requirements.txt
+    - shell: bash
+      env:
+        REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+        REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+        API_CLIENT: ${{ secrets.API_CLIENT }}
+        API_SECRET: ${{ secrets.API_SECRET }}
+      run: python main.py
