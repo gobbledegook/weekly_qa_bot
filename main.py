@@ -33,6 +33,7 @@ for submission in reddit.subreddit("linguistics").search(query='flair:Weekly fea
             for comment in submission.comments:
                 if comment.created_utc < expiration_date:
                     break
+                comment.refresh()
                 if len(comment.replies) == 0 and comment.author != None:
                     i += 1
                     if i == 1:
